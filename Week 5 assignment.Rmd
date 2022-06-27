@@ -1,0 +1,65 @@
+---
+title: "Assignment Week 5"
+author: "Sara Monedero"
+date: '2022-06-27'
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library (readr)
+library(tidyverse)
+library(knitr)
+library(bslib) 
+library(ggplot2)
+```
+
+
+```{r}
+#DATA READING
+url <- "https://raw.githubusercontent.com/fivethirtyeight/data/master/nutrition-studies/raw_anonymized_data.csv"
+food <- read_csv(url)
+```
+
+```{r}
+#DATA CLEANING
+diabetes <- select(food, "diabetes", "ever_smoked","PANCAKEFREQ", "PANCAKEQUAN", "PASTRIESFREQ", "PASTRIESQUAN", "BISCUITFREQ", "BISCUITQUAN")
+
+as.data.frame(diabetes)
+```
+```{r}
+#Plot 1: Diabetes Distribution
+ggplot(data = diabetes) +
+  geom_bar(mapping = aes(x = diabetes))
+
+```
+
+```{r}
+#Plot 2 - Types of sugar foods consumed by people with and without diabetes (by freq)
+ggplot(data = diabetes) +
+  geom_boxplot(mapping = aes(x = diabetes, y = PASTRIESFREQ))
+
+ggplot(data = diabetes) +
+  geom_boxplot(mapping = aes(x = diabetes, y = PANCAKEFREQ))
+
+ggplot(data = diabetes) +
+  geom_boxplot(mapping = aes(x = diabetes, y = BISCUITFREQ))
+
+```
+
+```{r}
+#Plot 3 - Do freq and quantity positivately related? 
+ggplot(data = diabetes) +
+  geom_smooth(mapping = aes(x = PASTRIESQUAN, y = PASTRIESFREQ))
+
+ggplot(data = diabetes) +
+  geom_smooth(mapping = aes(x = PANCAKEQUAN, y = PANCAKEFREQ))
+
+ggplot(data = diabetes) +
+  geom_smooth(mapping = aes(x = BISCUITQUAN, y = BISCUITFREQ))
+```
+
